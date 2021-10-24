@@ -1,0 +1,5 @@
+fstat = OK
+len of file = 11, name_of_file = "input.txt"
+Count of zeros = 0
+New len of file = 11, name_of_file = "input.txt"
+RESULT - OK
