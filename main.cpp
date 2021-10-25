@@ -2,7 +2,7 @@
 
 
 int main () {
-	REDIR(freopen ("debug_info.txt", "w", stdout);)
+	REDIR(freopen ("stdout.txt", "w", stdout);)
 	int res = Remove_r ("input.txt");
 	if (!res) {
 		printf ("RESULT - OK\n");

@@ -1,5 +1,6 @@
 #include "mylib_files.h"
 int error = 0;
+DP(FILE *debug_file = fopen ("debug_info.txt", "w");)
 
 int Remove_r (const char *name_of_file) {
 	FILE *input = fopen (name_of_file, "r");
@@ -10,7 +11,7 @@ int Remove_r (const char *name_of_file) {
 
 	size_t n = 0;
 	error = LenOfFile (input, &n);
-	DP(printf ("len of file = %d, name_of_file = \"%s\"\n", n, name_of_file);)
+	DP((debug_file, "len of file = %d, name_of_file = \"%s\"\n", n, name_of_file))
 	if (error != OK) {
 		return error;
 	}
@@ -32,11 +33,11 @@ int Remove_r (const char *name_of_file) {
 		return error;
 	}
 	n -= count_zero_end;
-	DP(printf ("New len of file = %d, name_of_file = \"%s\"\n", n, name_of_file);)
+	DP((debug_file, "New len of file = %d, name_of_file = \"%s\"\n", n, name_of_file))
 	fclose (input);
 
 	RELEASE(FILE *output = fopen (name_of_file, "wb");)
-	//UNRELEASE(FILE *output = fopen ("output.txt", "wb");)
+	UNRELEASE(FILE *output = fopen ("output.txt", "wb");)
 	if (output == NULL) {
 		DPR("ERROR_OPEN_FILE")
 		return ERROR_OPEN_FILE;
@@ -53,12 +54,12 @@ int Remove_r (const char *name_of_file) {
 int LenOfFile (FILE *input, size_t *n) {
 	struct stat statbuf;
 	if (fstat (fileno (input), &statbuf) != -1) {
-		DP(printf ("fstat = OK\n");)
+		DP((debug_file, "fstat = OK\n"))
 		*n = statbuf.st_size;
 		return OK;
 	}
 	else {
-		DP(printf ("ERROR in Fstat\n");)
+		DP((debug_file, "ERROR in Fstat\n"))
 		DPR("ERROR_FSTAT")
 		return ERROR_FSTAT;
 	}
@@ -72,7 +73,7 @@ int CountZeroEnd (char *str, int n, size_t *count_zero_end) {
 		counter++;
 		i--;
 	}
-	DP(printf ("Count of zeros = %d\n", counter);)
+	DP((debug_file, "Count of zeros = %d\n", counter))
 	*count_zero_end = counter;
 	return OK;
 }
